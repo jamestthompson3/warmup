@@ -1,39 +1,34 @@
-function renderToDOM(id, component) {
-  const root = document.querySelector(`#${id}`);
-  root.appendChild(component.el);
-}
-
 const OUR_COMPONENT = "component";
 
-class Component {
+export class Component {
   constructor(element, args = {}) {
     this.$$typeof = OUR_COMPONENT;
     this.el = document.createElement(element);
     this.args = args;
-    this.mount();
   }
 
-  mount() {
+  componentDidMount() {}
+
+  setup() {
     if (this.args.style) this.applyStyles();
-    console.log(this.args.on);
-    function callfromMount() {
-      console.log("called from mount");
-    }
     if (this.args.on) {
       this.args.on.forEach(handler => {
-        const [event, func] = Object.entries(handler)[0];
-        this.el.addEventListener(event, func);
+        Object.entries(handler).forEach(([event, func]) => {
+          this.el.addEventListener(event, func);
+        });
       });
     }
   }
 
-  render(children) {
+  render(children = []) {
+    this.setup();
+    this.componentDidMount();
     if (!Array.isArray(children)) {
       throw new Error("Children must be an array!");
     }
     const components = [];
     children.forEach(child => {
-      if (child.$$typeof === "component") {
+      if (child.$$typeof === OUR_COMPONENT) {
         components.push(child.el);
       }
       if (typeof child === "string") {
