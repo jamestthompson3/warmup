@@ -16,6 +16,6 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-generate-html-template": "^1.2.0",
     "rollup-plugin-livereload": "^1.0.1",
-    "rollup-plugin-serve": "^1.0.1"
+    "rollup-plugin-serve": "^1.0.2"
   }
 }
